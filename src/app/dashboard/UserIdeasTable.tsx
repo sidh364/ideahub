@@ -20,13 +20,20 @@ export default function UserIdeasTable() {
   const fetchUserIdeas = async () => {
     if (!user) return;
     setLoading(true);
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('ideas')
       .select('*, votes(id), comments(id)')
       .eq('author_id', user.id)
       .order('created_at', { ascending: false });
-    if (!error && data) {
-      setIdeas(data);
+    if (Array.isArray(data)) {
+      setIdeas(data.map((idea: UserIdea) => ({
+        id: idea.id,
+        title: idea.title,
+        upvotes: idea.upvotes,
+        comments: idea.comments,
+        votes: idea.votes,
+        created_at: idea.created_at,
+      })));
     }
     setLoading(false);
   };
