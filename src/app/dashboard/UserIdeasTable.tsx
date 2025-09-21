@@ -26,13 +26,13 @@ export default function UserIdeasTable() {
       .eq('author_id', user.id)
       .order('created_at', { ascending: false });
     if (Array.isArray(data)) {
-      setIdeas(data.map((idea: UserIdea) => ({
-        id: idea.id,
-        title: idea.title,
-        upvotes: idea.upvotes,
-        comments: idea.comments,
-        votes: idea.votes,
-        created_at: idea.created_at,
+      setIdeas(data.map((idea) => ({
+        id: idea.id as string,
+        title: idea.title as string,
+        upvotes: idea.upvotes as number,
+        comments: idea.comments as { id: string }[],
+        votes: idea.votes as { id: string }[],
+        created_at: idea.created_at as string,
       })));
     }
     setLoading(false);
@@ -40,6 +40,7 @@ export default function UserIdeasTable() {
 
   useEffect(() => {
     if (user) fetchUserIdeas();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   return (

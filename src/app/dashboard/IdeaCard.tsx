@@ -40,11 +40,11 @@ export default function IdeaCard({ idea, onUpvote, onComment }: {
       .eq('idea_id', idea.id)
       .order('created_at', { ascending: true });
     if (Array.isArray(data)) {
-      setComments(data.map((c: Comment) => ({
-        id: c.id,
-        user_id: c.user_id,
-        content: c.content,
-        created_at: c.created_at,
+      setComments(data.map((c) => ({
+        id: c.id as string,
+        user_id: c.user_id as string,
+        content: c.content as string,
+        created_at: c.created_at as string,
       })));
     }
   };
@@ -137,7 +137,7 @@ export default function IdeaCard({ idea, onUpvote, onComment }: {
       <div className="mt-2">
         <h4 className="font-semibold mb-1">Comments:</h4>
         <ul>
-          {comments.map((c) => (
+          {comments.map((c: Comment) => (
             <li key={c.id} className="text-sm text-gray-700 mb-1">
               <span className="font-bold">{c.user_id}</span>: {c.content}
             </li>
