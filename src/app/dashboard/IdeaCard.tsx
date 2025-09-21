@@ -13,6 +13,13 @@ export type Idea = {
   upvotes?: number;
 };
 
+interface Comment {
+  id: string;
+  user_id: string;
+  content: string;
+  created_at: string;
+}
+
 export default function IdeaCard({ idea, onUpvote, onComment }: {
   idea: Idea;
   onUpvote: () => void;
@@ -20,27 +27,27 @@ export default function IdeaCard({ idea, onUpvote, onComment }: {
 }) {
   const { user } = useUser();
   const [comment, setComment] = useState('');
-  const [comments, setComments] = useState<any[]>([]);
+  const [comments, setComments] = useState<Comment[]>([]);
   const [hasUpvoted, setHasUpvoted] = useState(false);
   const [upvoteCount, setUpvoteCount] = useState(idea.upvotes || 0);
   const [loading, setLoading] = useState(false);
 
   // Fetch comments for this idea
   const fetchComments = async () => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('comments')
       .select('*')
       .eq('idea_id', idea.id)
       .order('created_at', { ascending: true });
-    if (!error && data) {
-      setComments(data);
+    if (data) {
+      setComments(data as Comment[]);
     }
   };
 
   // Check if user has upvoted
   const checkUpvote = async () => {
     if (!user) return;
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('votes')
       .select('*')
       .eq('idea_id', idea.id)
@@ -125,7 +132,7 @@ export default function IdeaCard({ idea, onUpvote, onComment }: {
       <div className="mt-2">
         <h4 className="font-semibold mb-1">Comments:</h4>
         <ul>
-          {comments.map((c: any) => (
+          {comments.map((c) => (
             <li key={c.id} className="text-sm text-gray-700 mb-1">
               <span className="font-bold">{c.user_id}</span>: {c.content}
             </li>

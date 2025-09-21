@@ -3,16 +3,22 @@ import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import { useUser } from '../../lib/useUser';
 
+interface UserIdea {
+  id: string;
+  title: string;
+  upvotes?: number;
+  comments?: { id: string }[];
+  votes?: { id: string }[];
+  created_at: string;
+}
+
 export default function UserIdeasTable() {
   const { user } = useUser();
-  const [ideas, setIdeas] = useState<any[]>([]);
+  const [ideas, setIdeas] = useState<UserIdea[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (user) fetchUserIdeas();
-  }, [user]);
-
   const fetchUserIdeas = async () => {
+    if (!user) return;
     setLoading(true);
     const { data, error } = await supabase
       .from('ideas')
@@ -24,6 +30,10 @@ export default function UserIdeasTable() {
     }
     setLoading(false);
   };
+
+  useEffect(() => {
+    if (user) fetchUserIdeas();
+  }, [user]);
 
   return (
     <div className="bg-white p-6 rounded shadow-md mt-8">
