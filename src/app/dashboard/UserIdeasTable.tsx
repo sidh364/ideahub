@@ -14,7 +14,7 @@ interface UserIdea {
 
 export default function UserIdeasTable() {
   const { user } = useUser();
-  const [ideas, setIdeas] = useState<UserIdea[]>([]);
+  const [ideas, setIdeas] = useState<Array<UserIdea>>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchUserIdeas = async () => {
