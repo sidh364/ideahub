@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+"use client";
 import { supabase } from '../../lib/supabaseClient';
 import IdeaCard, { Idea } from './IdeaCard';
 

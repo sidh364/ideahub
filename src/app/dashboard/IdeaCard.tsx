@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+"use client";
 import { supabase } from '../../lib/supabaseClient';
 import { useUser } from '../../lib/useUser';
 
