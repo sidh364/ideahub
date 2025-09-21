@@ -1,5 +1,5 @@
-import { useUser } from '../../lib/useUser';
 "use client";
+import { useUser } from '../../lib/useUser';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import IdeaForm from './IdeaForm';
