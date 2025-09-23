@@ -27,6 +27,11 @@ export default function IdeaForm({ onIdeaPosted }: { onIdeaPosted: () => void })
       setLoading(false);
       return;
     }
+    if (!user) {
+      setError('You must be logged in to submit an idea.');
+      setLoading(false);
+      return;
+    }
     const { error: dbError } = await supabase.from('ideas').insert([
       {
         title,
