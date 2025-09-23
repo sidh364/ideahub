@@ -14,7 +14,7 @@ export function useUser() {
       setLoading(false);
     };
     getUser();
-    const { data: listener } = supabase.auth.onAuthStateChange((_event: AuthChangeEvent, session: Session | null) => {
+    const { data: listener } = supabase.auth.onAuthStateChange((event: AuthChangeEvent, session: Session | null) => {
       setUser(session?.user ?? null);
     });
     return () => {

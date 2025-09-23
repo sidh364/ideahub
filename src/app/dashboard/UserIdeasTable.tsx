@@ -25,14 +25,22 @@ export default function UserIdeasTable() {
       .select('*, votes(id), comments(id)')
       .eq('author_id', user.id)
       .order('created_at', { ascending: false });
+    type SupabaseIdea = {
+      id: string;
+      title: string;
+      upvotes?: number;
+      comments?: { id: string }[];
+      votes?: { id: string }[];
+      created_at: string;
+    };
     if (Array.isArray(data)) {
-      setIdeas(data.map((idea) => ({
-        id: idea.id as string,
-        title: idea.title as string,
-        upvotes: idea.upvotes as number,
-        comments: idea.comments as { id: string }[],
-        votes: idea.votes as { id: string }[],
-        created_at: idea.created_at as string,
+      setIdeas(data.map((idea: SupabaseIdea) => ({
+        id: idea.id,
+        title: idea.title,
+        upvotes: idea.upvotes,
+        comments: idea.comments,
+        votes: idea.votes,
+        created_at: idea.created_at,
       })));
     }
     setLoading(false);

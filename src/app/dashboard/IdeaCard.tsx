@@ -33,6 +33,12 @@ export default function IdeaCard({ idea, onUpvote, onComment }: {
   const [loading, setLoading] = useState(false);
 
   // Fetch comments for this idea
+  type SupabaseComment = {
+    id: string;
+    user_id: string;
+    content: string;
+    created_at: string;
+  };
   const fetchComments = async () => {
     const { data } = await supabase
       .from('comments')
@@ -40,11 +46,11 @@ export default function IdeaCard({ idea, onUpvote, onComment }: {
       .eq('idea_id', idea.id)
       .order('created_at', { ascending: true });
     if (Array.isArray(data)) {
-      setComments(data.map((c) => ({
-        id: c.id as string,
-        user_id: c.user_id as string,
-        content: c.content as string,
-        created_at: c.created_at as string,
+      setComments(data.map((c: SupabaseComment) => ({
+        id: c.id,
+        user_id: c.user_id,
+        content: c.content,
+        created_at: c.created_at,
       })));
     }
   };
